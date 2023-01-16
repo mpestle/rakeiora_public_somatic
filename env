@@ -1,0 +1,3 @@
+export TMP=./tmp
+export TMPDIR=$TMP
+export JVM_ARGS="-Djava.io.tmpdir=$TMPDIR -Xmx1900m"

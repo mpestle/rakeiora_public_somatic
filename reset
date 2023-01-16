@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rm -rf qc/*
+rm -rf logs/*
+rm -rf results/*
+rm -rf tmp/ubuntu
+rm -rf .snakemake

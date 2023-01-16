@@ -1,0 +1,11 @@
+[[annotation]]
+file="/shared/reference/gnomad.exomes.r2.1.1.sites.vcf.bgz"
+fields=["AC_popmax", "AF_popmax","FILTER"]
+ops=["self","self", "self"]
+names=["gnomADAlleleCount", "gnomADAlleleFrequency", "gnomadFilter" ]
+
+[[annotation]]
+file="/shared/reference/clinvar.vcf.gz"
+fields=["CLNDN", "CLNSIG","CLNDISDB", "CLNREVSTAT", "FILTER"]
+ops=["self","self","self","self", "self"]
+names=["clinvarDiseaseName", "clinVarSignificance", "clinvarDiseaseDatabase", "clinvarReviewStatus", "clinvarFilter" ]
