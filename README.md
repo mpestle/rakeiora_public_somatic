@@ -28,3 +28,6 @@ and the contents of that directory will be copied to the jupyter hub
 area when the researcher runs a workflow in Rakeiora. So before
 this is run on real data, the kaitiaki of the data
 and the workflow reviewers need to be OK with that.
+
+NeSI does not claim ownership or authorship of this workflow.
+Authorship credits will follow later.

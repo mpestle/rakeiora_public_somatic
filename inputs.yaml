@@ -1,6 +1,7 @@
 rawDataDirectory:      "resources"
 metricsDirectory:      "qc"
-intermediateDirectory: "results"
+intermediateDirectory: "int"
+resultsDirectory:      "results"
 logsDirectory:         "logs"
 resourcesDirectory:    "resources"
 libDirectory:          "/shared/lib"
