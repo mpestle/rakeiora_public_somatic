@@ -19,12 +19,13 @@ Utilises a singularity built for this workflow which uses
 - Java 20
 
 See singularity.def
+
 To build this singularity:
 
 ```singularity build --fakeroot rakeiora-apps-20250730.sif singularity.def```
 
 Two libraries are used from the /shared/lib area,
-VarScan.v2.4.6.jar and picard.jar (and actually the picard isn't actually used),
+VarScan.v2.4.6.jar and picard.jar (and the picard isn't actually used),
 along with a shared
 reference file in /shared/reference/,
 GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna
