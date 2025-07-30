@@ -7,12 +7,21 @@ Somatic workflow - tumour vs normal.
 
 ---
 
-Unsure of the function of this workflow, but it does a bunch
-of analysis of a tumour sample vs a normal sample. Perhaps
-someone with more knowledge of these tools can update this
-readme file somewhere along the line.
+This workflow is a combination of Ben Curran's original somatic workflow
+and Peter Tsai's scripts to do a somatic analysis.
 
-Utilises a singularity built for this workflow which uses
+This workflow utilises a pipe between the
+pileup and varscan functions and therefore eliminates a massive amount of
+interim storage on disk that Ben's workflow required.
+Parallelism is achieved by partitioning the mpileup and varscan steps
+by chromosome (1-22, X, Y, M).
+
+This is running in the Rakeiora environment on a 16cpu32ram VM
+in about 3 hours, when snakemake is given 16 cores.
+
+```snakemake -c16 --use-singularity```
+
+Utilises a singularity specifically built for this workflow which contains:
 - SAMTOOLS_VERSION=1.19
 - BCFTOOLS_VERSION=1.19
 - VCFANNO_VERSION=v0.3.6
