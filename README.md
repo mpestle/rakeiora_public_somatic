@@ -1,4 +1,4 @@
-# Somatic Workflow
+# Somatic Workflow - kinghorn1 dataset version
 
 [Rakeiora](http://rakeiora.ac.nz)
 
