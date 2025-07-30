@@ -3,5 +3,6 @@
 rm -rf qc/*
 rm -rf logs/*
 rm -rf results/*
+rm -rf int/*
 rm -rf tmp/ubuntu
 rm -rf .snakemake
