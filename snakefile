@@ -35,11 +35,11 @@ varscanSnpVcfgzCsi    = intermediateDirectory + "/{tumour}.{chr}.varscan.somatic
 varscanIndelVcf       = intermediateDirectory + "/{tumour}.{chr}.varscan.somatic.indel.vcf",
 varscanIndelVcfgz     = intermediateDirectory + "/{tumour}.{chr}.varscan.somatic.indel.vcf.gz",
 varscanIndelVcfgzCsi  = intermediateDirectory + "/{tumour}.{chr}.varscan.somatic.indel.vcf.gz.csi",
-mergedVCF             = resultsDirectory      + "/tumour_merged.vcf.gz"
-decomposedVCF         = intermediateDirectory + "/tumour.decomposed.vcf"
-normalisedVCF         = intermediateDirectory + "/tumour.normalised.vcf"
-normalisedVCFgz       = intermediateDirectory + "/tumour.normalised.vcf.gz"
-normalisedVCFgztbi    = intermediateDirectory + "/tumour.normalised.vcf.gz.tbi"
+mergedVCF             = resultsDirectory      + "/tumour.merged.vcf.gz"
+decomposedVCF         = resultsDirectory      + "/tumour.decomposed.vcf"
+normalisedVCF         = resultsDirectory      + "/tumour.normalised.vcf"
+normalisedVCFgz       = resultsDirectory      + "/tumour.normalised.vcf.gz"
+normalisedVCFgztbi    = resultsDirectory      + "/tumour.normalised.vcf.gz.tbi"
 
 
 #################################################################################
@@ -99,6 +99,9 @@ rule varscanSomatic:
     container: singularityDirectory + "/" + workflowSingularity
     shell:
         """
+	now=$(date '+%Y%m%d-%H%M%S')
+	echo "$now starting {wildcards.chr}" >> logs/progress.log
+
 	samtools mpileup \
 	-r {wildcards.chr} \
 	-B \
@@ -120,7 +123,11 @@ rule varscanSomatic:
 	--mpileup 1 \
 	--output-snp {output.varscanSnpVcf} \
 	--output-indel {output.varscanIndelVcf} \
+
 	>{log} 2>&1
+
+	now=$(date '+%Y%m%d-%H%M%S')
+	echo "$now finished {wildcards.chr} $SECONDS" >> logs/progress.log
         """
 ###################################### Gzip snp varscans ######################################
 rule GzipSnp:
@@ -174,7 +181,7 @@ rule Concat:
         fndx = expand("int/tumour.{chr}.varscan.somatic.indel.vcf.gz.csi",chr=CHROMOSOMES),
         fsdx = expand("int/tumour.{chr}.varscan.somatic.snp.vcf.gz.csi",chr=CHROMOSOMES)
     output:
-        vcf =  resultsDirectory + "/tumour_merged.vcf.gz"
+        vcf =  mergedVCF
     container: singularityDirectory + "/" + workflowSingularity
     shell:
         """
