@@ -75,8 +75,8 @@ all_results = [
 	,normalisedVCF
 	,normalisedVCFgz 
 	,normalisedVCFgztbi
-	,annotatedVCF
-	,filteredVCF
+#	,annotatedVCF
+#	,filteredVCF
 	]
 
 rule all:
@@ -117,7 +117,7 @@ rule varscanSomatic:
 	--p-value 1.00 \
 	--somatic-p-value 1.0 \
 	--strand-filter 0 \
-	--tumour-purity 0.5 \
+	--tumour-purity 1 \
 	--output-vcf 1 \
 	--min-coverage-normal 10 \
 	--min-coverage-tumor 10 \
@@ -241,54 +241,57 @@ rule normalise_index:
         """
         bgzip -@ {threads} -c {input.vcf} > {output.vcfgz} && tabix -p vcf {output.vcfgz}
         """
-##################################### Annotate ######################################
-# function needs to go here to enable this stage to pick up inpupt from either germline or somatic threads.
-# input within the rule will accept a function call/values returned by a function call as inputs.
-# This should possibly go in the decompose stage?
 
-def get_input(wildcards):
-    input_list = []
-    if config["DEG"]["exec"]:
-          input_list.append("DEG/DEG.txt")
-    if config["DTU"]["exec"]:
-          input_list.append("DTU/DTU.txt")
-    return input_list
-
-rule annotate:
-    input:
-        vcf = rules.normalise_index.output.vcfgz
-    output:
-        annotatedVcf = annotatedVCF
-    log:
-        annotationLogs = "logs/tumour.annotation.log"
-
-    # 8 threads is about twice as fast as 2: 27 min vs 15
-    threads:
-        8
-    resources:
-        mem = "8GB",
-        time = "01:00:00"
-    container: singularityDirectory + "/" + workflowSingularity
-    shell:
-        """
-            vcfanno -p {threads} {vcfannoConfig} {input.vcf} > {output.annotatedVcf} 2>{log.annotationLogs}
-        """
-##################################### Filter ######################################
-rule filter:
-    input:
-        vcf = rules.annotate.output.annotatedVcf
-    output:
-        filteredVcf = filteredVCF
-    log:
-        filteringLogs = "logs/tumour.filtering.log"
-    threads:
-        2
-    resources:
-        mem = "8GB",
-        time = "01:00:00"
-    container: singularityDirectory + "/" + workflowSingularity
-    shell:
-        """
-            bcftools view -e'clinvarDiseaseName=""' -f'* [ %clinvarDiseaseName]\n | gnomADAlleleCount=""' -f'* [ %gnomadADAlleCount]\n ' {input.vcf} -o {output.filteredVcf} > {log.filteringLogs}
-            #bcftools view {input.vcf} -o {output.filteredVcf} > {log.filteringLogs}
-        """
+###################################### Rest commented out ######################################
+###################################### ######################################
+###################################### Annotate ######################################
+## function needs to go here to enable this stage to pick up inpupt from either germline or somatic threads.
+## input within the rule will accept a function call/values returned by a function call as inputs.
+## This should possibly go in the decompose stage?
+#
+#def get_input(wildcards):
+#    input_list = []
+#    if config["DEG"]["exec"]:
+#          input_list.append("DEG/DEG.txt")
+#    if config["DTU"]["exec"]:
+#          input_list.append("DTU/DTU.txt")
+#    return input_list
+#
+#rule annotate:
+#    input:
+#        vcf = rules.normalise_index.output.vcfgz
+#    output:
+#        annotatedVcf = annotatedVCF
+#    log:
+#        annotationLogs = "logs/tumour.annotation.log"
+#
+#    # 8 threads is about twice as fast as 2: 27 min vs 15
+#    threads:
+#        8
+#    resources:
+#        mem = "8GB",
+#        time = "01:00:00"
+#    container: singularityDirectory + "/" + workflowSingularity
+#    shell:
+#        """
+#            vcfanno -p {threads} {vcfannoConfig} {input.vcf} > {output.annotatedVcf} 2>{log.annotationLogs}
+#        """
+###################################### Filter ######################################
+#rule filter:
+#    input:
+#        vcf = rules.annotate.output.annotatedVcf
+#    output:
+#        filteredVcf = filteredVCF
+#    log:
+#        filteringLogs = "logs/tumour.filtering.log"
+#    threads:
+#        2
+#    resources:
+#        mem = "8GB",
+#        time = "01:00:00"
+#    container: singularityDirectory + "/" + workflowSingularity
+#    shell:
+#        """
+#            bcftools view -e'clinvarDiseaseName=""' -f'* [ %clinvarDiseaseName]\n | gnomADAlleleCount=""' -f'* [ %gnomadADAlleCount]\n ' {input.vcf} -o {output.filteredVcf} > {log.filteringLogs}
+#            #bcftools view {input.vcf} -o {output.filteredVcf} > {log.filteringLogs}
+#        """
