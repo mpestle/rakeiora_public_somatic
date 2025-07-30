@@ -8,6 +8,7 @@ Somatic workflow - tumour vs normal.
 ---
 
 This workflow is a combination of Ben Curran's original somatic workflow
+(https://github.com/nesi/rakeiora-public-somatic)
 and Peter Tsai's scripts to do a somatic analysis.
 
 This workflow utilises a pipe between the
