@@ -20,6 +20,15 @@ by chromosome (1-22, X, Y, M).
 This is running in the Rakeiora environment on a 16cpu32ram VM
 in about 3 hours, when snakemake is given 16 cores.
 
+Before running, the calling environment needs to set (and export) the
+SINGULARITY_BIND environment variable, which needs to include the
+/shared resources and the attached volume with the dataset, so
+after you get the volume attached:
+
+```export SINGULARITY_BIND=/shared,/rv/kinghorn1```
+
+Then
+
 ```snakemake -c16 --use-singularity```
 
 Utilises a singularity specifically built for this workflow which contains:
