@@ -12,10 +12,21 @@ of analysis of a tumour sample vs a normal sample. Perhaps
 someone with more knowledge of these tools can update this
 readme file somewhere along the line.
 
+Utilises a singularity built for this workflow which uses
+- SAMTOOLS_VERSION=1.19
+- BCFTOOLS_VERSION=1.19
+- VCFANNO_VERSION=v0.3.6
+- Java 20
+
+See singularity.def
+To build this singularity:
+```singularity build --fakeroot rakeiora-apps-20250730.sif singularity.def```
+
 Two libraries are used from the /shared/lib area,
-VarScan.v2.4.4.jar and picard.jar, along with a shared
+VarScan.v2.4.6.jar and picard.jar (and actually the picard isn't actually used),
+along with a shared
 reference file in /shared/reference/,
-GCA_000001405.15_GRCh38_no_alt_analysis_set
+GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna
 
 The two input files expected are named tumour.bam and normal.bam,
 in the resources directory, so the definition of the inputs
